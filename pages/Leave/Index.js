@@ -28,7 +28,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { FlatList } from 'native-base';
 
 // const baseUrl = 'https://reqres.in';
-const baseUrl = 'http://34.126.150.110/api-aralia';
+const baseUrl = 'https://aralia.pegadaian.co.id/webservice_api';
 
 const ButtonMenu = (props) => {
   return (

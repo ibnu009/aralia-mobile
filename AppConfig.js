@@ -3,10 +3,10 @@ import {Alert, BackHandler} from 'react-native';
 import {encode} from 'base-64';
 import AsyncStorage from '@react-native-community/async-storage';
 
-// export const REST_PGD = 'https://larisa.pegadaian.co.id/webservices1';
-// export const REST_URL = 'https://aralia.pegadaian.co.id/webservice_api';
-export const REST_PGD = 'http://34.126.150.110/api-aralia';
-export const REST_URL = 'http://34.126.150.110/api-aralia';
+export const REST_PGD = 'https://larisa.pegadaian.co.id/webservices1';
+export const REST_URL = 'https://aralia.pegadaian.co.id/webservice_api';
+// export const REST_PGD = 'http://34.126.150.110/api-aralia';
+// export const REST_URL = 'http://34.126.150.110/api-aralia';
 export const API_KEY = '';
 
 export const HEADERS_CONFIG = {

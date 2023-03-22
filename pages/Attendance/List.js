@@ -420,45 +420,6 @@ class AttendanceList extends Component {
           style={{
             flexDirection: 'row',
           }}>
-<<<<<<< HEAD
-            <View
-              size={28}
-              style={{
-                flex: 1,
-                height: 50,
-                marginLeft: 10,
-              }}>
-              <Text style={{color: 'black'}}>Tanggal Masuk</Text>
-            </View>
-            <View
-              size={28}
-              style={{
-                flex: 1,
-                height: 50,
-              }}>
-              <Text style={{color: 'black'}}>Jam Masuk</Text>
-            </View>
-            <View
-              size={28}
-              style={{
-                flex: 1,
-                height: 50,
-              }}>
-              <Text style={{color: 'black'}}>Tanggal Keluar</Text>
-            </View>
-            <View
-              size={28}
-              style={{
-                flex: 1,
-                height: 50,
-                alignItems: 'center',
-              }}>
-              <Text style={{color: 'black'}}>Jam Keluar</Text>
-            </View> 
-            <View size={28} style={{alignSelf: 'center', height: 50, marginHorizontal: 5}}>
-              <Text style={{color: 'black'}}>{`Jam kerja \nEfektif`}</Text>
-            </View>
-=======
           <View
             size={28}
             style={{
@@ -498,7 +459,6 @@ class AttendanceList extends Component {
             style={{alignSelf: 'center', height: 50, marginHorizontal: 5}}>
             <Text style={{color: 'black'}}>{`Jam kerja \nEfektif`}</Text>
           </View>
->>>>>>> 130639b483ecf79c7d980ef8ee2834f3e145c1f9
         </View>
         <View
           style={{
