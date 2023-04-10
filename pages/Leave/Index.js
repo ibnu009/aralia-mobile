@@ -29,6 +29,7 @@ import { FlatList } from 'native-base';
 
 // const baseUrl = 'https://reqres.in';
 const baseUrl = 'https://aralia.pegadaian.co.id/webservice_api';
+// const baseUrl = 'https://api-aralia.abera.id/';
 
 const ButtonMenu = (props) => {
   return (
@@ -188,13 +189,13 @@ const Index = ({navigation}) => {
           // ...HEADERS_CONFIG.headers,
         },
       })
-        .then((response) => response.json())
-        .then((responseJSON) => {
-          console.log('response is');
-          console.log(responseJSON);
-          setIsLoading(false);
-          setCutiResponse(responseJSON);
-        });
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        console.log('response is');
+        console.log(responseJSON);
+        setIsLoading(false);
+        setCutiResponse(responseJSON);
+      });
     })
     .catch((err) => console.log(err));
   }, []);

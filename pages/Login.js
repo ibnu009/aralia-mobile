@@ -179,7 +179,7 @@ export default class Login extends Component {
             console.log(res.token);
             console.log(typeof res.token);
 
-            // AsyncStorage.setItem('tokk', res.token,).then(() => {});
+            AsyncStorage.setItem('tokk', res.token,).then(() => {});
             AsyncStorage.setItem('eid', res.values.id_employee).then(() => {});
             // this.props.navigation.navigate('MainApp');
 
