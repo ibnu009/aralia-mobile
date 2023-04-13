@@ -19,28 +19,16 @@ import {
   FlatList,
   View,
   Platform,
-  Alert,
+  Alert
 } from 'react-native';
 
 import Moment from 'moment';
 import FileViewer from 'react-native-file-viewer';
 import {yearOptionItem} from '../../AppConfig';
 
-// import {
-//   Container,
-//   Item,
-//   Picker,
-//   Button,
-//   Text,
-//   ListItem,
-//   Grid,
-//   Row,
-//   Col,
-//   Label,
-// } from 'native-base';
-
 import {PermissionsAndroid} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
 
 class AttendanceList extends Component {
   constructor(props) {
@@ -84,7 +72,7 @@ class AttendanceList extends Component {
     if ('' != UserStore.getUserData()) {
       var userData = UserStore.getUserData();
       var nip = userData['id_employee'];
-      console.log(nip);
+      this.state.nip = nip;
       // store.setData([]);
 
       store.setLoading(true);
@@ -129,55 +117,56 @@ class AttendanceList extends Component {
 
     // =================================================================
     // DOWNLOAD DENGAN HTML RESPONSE TO PDF
-    // =================================================================
+    // =================================================================    
     fetch(url) // Call the fetch function passing the url of the API as a parameter
-      .then((res) => {
-        return res.text();
-      })
-      .then((data) => {
-        let fileName = Moment().format('d_m_Y_hh_mm_ss');
+    .then(res => {
+      return res.text();
+    })
+    .then(async (data) => {
+        let fileName = Moment().format('d_m_Y_hh_mm_ss')
         let options = {
           html: data,
           fileName: fileName,
           directory: 'Download',
         };
 
-        // try {
-        //   let ffile = RNHTMLtoPDF.convert(options);
-        //   console.log(ffile.filePath);
-        // } catch (e) {
-        //   console.log(e);
-        // }
+        let ffile = await RNHTMLtoPDF.convert(options);
+        try {
+          console.log(ffile.filePath);
+        }catch(e){
+          console.log(e);
+        }
 
         Alert.alert(
-          'Info',
-          `Apakah anda ingin lihat laporan yang telah di unduh didalam direktori ${dirs}/${fileName}.pdf ?`,
+          "Info",
+          `Apakah anda ingin lihat laporan yang telah di unduh didalam direktori ${ffile.filePath} ?`,
           [
             // {
             //   text: "Ask me later",
             //   onPress: () => console.log("Ask me later pressed")
             // },
             {
-              text: 'Tutup',
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel',
+              text: "Tutup",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
             },
-            {
-              text: 'Lihat File',
+            { 
+              text: "Lihat File", 
               onPress: () => {
-                FileViewer.open(`${dirs}/${fileName}.pdf`)
-                  .then(() => {
-                    // success
-                  })
-                  .catch((error) => {
-                    // error
-                  });
-              },
-            },
+                FileViewer.open(`${ffile.filePath}`)
+                .then(() => {
+                  // success
+                })
+                .catch(error => {
+                  // error
+                });
+              } 
+            }
           ],
-          {cancelable: false},
+          { cancelable: false }
         );
-      });
+    });
+
 
     // =================================================================
     // DOWNLOAD DENGAN FILE URL http://www.xxxx.com/file.pdf
@@ -324,8 +313,8 @@ class AttendanceList extends Component {
     return (
       <View>
         <View>
-          {/* <View>
-          <Picker
+          <View>
+          {/* <Picker
             note
             mode="dropdown"
             placeholder="Month"
@@ -347,21 +336,43 @@ class AttendanceList extends Component {
             {this.yearOptionItems().map((label, i) => (
               <Picker.Item label={label} value={label} key={i} />
             ))}
-          </Picker>
-        </View> */}
+          </Picker> */}
+        </View>
         </View>
 
         <HeaderBack title="Daftar Kehadiran" />
 
         {/* <Text style={{fontSize: 10}}>Lihat</Text> */}
-        <View style={{flexDirection: 'row', alignSelf: 'flex-end'}}>
+        <View style={{flexDirection: 'row', alignSelf: 'flex-start'}}>
+          <SelectDropdown
+            defaultButtonText={'Month'}
+            buttonStyle={{
+              width: 140,
+            }}
+            defaultValue={MONTH_ITEMS_OPTION[this.state.selectedMonth - 1]}
+            data={MONTH_ITEMS_OPTION}
+            onSelect={(selectedItem, index) => {
+              this.setState({selectedMonth: index + 1});
+            }}
+          />
+          <SelectDropdown
+            defaultButtonText={'Year'}
+            buttonStyle={{
+              width: 140,
+            }}
+            defaultValue={this.state.selectedYear}
+            data={yearOptionItem()}
+            onSelect={(selectedItem, index) => {
+              this.setState({selectedYear: selectedItem});
+            }}
+          />
           <Button
             style={[
               styles.buttonSuccess,
               {
                 height: '100%',
                 borderRadius: 0,
-                width: Dimensions.get('screen').width * (20 / 100),
+                width: Dimensions.get('screen').width * (30 / 100),
                 marginRight: 0.3,
               },
             ]}

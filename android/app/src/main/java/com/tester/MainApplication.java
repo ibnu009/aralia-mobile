@@ -9,9 +9,12 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
+import com.facebook.react.shell.MainReactPackage;
 import com.tester.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import com.christopherdro.htmltopdf.RNHTMLtoPDFPackage;
+
 
 public class MainApplication extends Application implements ReactApplication {
 

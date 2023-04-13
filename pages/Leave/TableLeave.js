@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import HeaderLayout from '../HeaderLayout';
 import {connect} from 'remx';
-import {store} from '../../remx/Absensi/store';
+import {store} from '../../remx/ListLeave/store';
 import {store as UserStore} from '../../remx/User/store';
-import * as actions from '../../remx/Absensi/actions';
+import * as actions from '../../remx/ListLeave/actions';
 import styles from '../../styles';
 import {MONTH_ITEMS_OPTION} from '../../AppConfig';
 import {Table, Row, Rows} from 'react-native-table-component';
@@ -43,6 +43,7 @@ import FileViewer from 'react-native-file-viewer';
 
 import {PermissionsAndroid} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class TableLeave extends Component {
   constructor(props) {
@@ -86,27 +87,41 @@ class TableLeave extends Component {
     if ('' != UserStore.getUserData()) {
       var userData = UserStore.getUserData();
       var nip = userData['id_employee'];
-      console.log(nip);
       // store.setData([]);
 
       store.setLoading(true);
       actions.setMonth(this.state.selectedMonth);
       actions.setYear(this.state.selectedYear);
-      actions.getAbsensiData(
-        nip,
-        this.state.selectedYear,
-        this.state.selectedMonth,
-      );
+      this.readData()
+      .then((data) => {
+        actions.setToken(data);
+        actions.getListLeave(
+          this.state.selectedYear,
+          this.state.selectedMonth,
+        );
+      });
     }
   }
+
+  readData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('tokk');
+      if (value !== null) {
+        // saveData(value);
+        return value;
+      }
+    } catch (e) {
+      console.log(e);
+      alert('Failed to fetch the input from storage');
+    }
+  };
 
   submitButton = () => {
     store.setData([]);
     store.setLoading(true);
     actions.setMonth(this.state.selectedMonth);
     actions.setYear(this.state.selectedYear);
-    actions.getAbsensiData(
-      this.state.nip,
+    actions.getListLeave(
       this.state.selectedYear,
       this.state.selectedMonth,
     );
@@ -121,7 +136,7 @@ class TableLeave extends Component {
   };
 
   downloadPDFAttendance = () => {
-    const url = `https://aralia.pegadaian.co.id/webservice_api/attendance/download?id_employee=${this.state.nip}&year=${this.state.selectedYear}&month=${this.state.selectedMonth}`;
+    const url = `https://aralia.pegadaian.co.id/webservice_api/leave_request/get_by_employee_id?page=1&limit=5&${this.state.selectedMonth}=11&year=${this.state.selectedYear}`;
     // const url = `https://api-aralia.abera.id/attendance/download?id_employee=${this.state.nip}&year=${this.state.selectedYear}&month=${this.state.selectedMonth}`;
     // const url = `http://localhost/backend-abera-aralia-pegadaian/attendance/download?id_employee=${this.state.nip}&year=${this.state.selectedYear}&month=${this.state.selectedMonth}`;
     let dirs =
@@ -237,23 +252,6 @@ class TableLeave extends Component {
 
   generateList(items) {
     const v = items.item;
-    var date_in = '';
-    var hour_in = '';
-    var date_out = '';
-    var hour_out = '';
-
-    date_in = Moment(v.date_in).format('D');
-    if ('Invalid date' == date_in) date_in = '';
-
-    hour_in = Moment(v.date_in).format('hh:mm:ss');
-    if ('Invalid date' == hour_in) hour_in = '';
-
-    date_out = Moment(v.date_out).format('D');
-    if ('Invalid date' == date_out) date_out = '';
-
-    hour_out = Moment(v.date_out).format('hh:mm:ss');
-    if ('Invalid date' == hour_out) hour_out = '';
-
     return (
       <View
         style={{
@@ -271,19 +269,13 @@ class TableLeave extends Component {
           showsHorizontalScrollIndicator={false}
           style={{textAlign: 'center'}}>
           <View size={33} style={style.centerCol}>
-            <Text>{v.short_date_in}</Text>
+            <Text style={{color: 'black'}}>{v.start_date}</Text>
           </View>
           <View size={33} style={style.centerCol}>
-            <Text>{v.time_in}</Text>
+            <Text style={{color: 'black'}}>{v.end_date}</Text>
           </View>
           <View size={33} style={style.centerCol}>
-            <Text>{v.short_date_out}</Text>
-          </View>
-          <View size={33} style={style.centerCol}>
-            <Text>{v.time_out}</Text>
-          </View>
-          <View size={33} style={style.centerCol}>
-            <Text>{v.total_jam}</Text>
+            <Text style={{color: 'black'}}>{v.reason}</Text>
           </View>
         </ScrollView>
       </View>
@@ -302,21 +294,19 @@ class TableLeave extends Component {
   render() {
     const {data} = this.props;
     const state = this.state;
-
     return (
       <View>
         <HeaderBack title="Daftar Cuti" />
         <View
           style={{
             flexDirection: 'row',
-            alignSelf: 'flex-end',
             borderBottomColor: 'gray',
             borderBottomWidth: 1,
           }}>
           <SelectDropdown
             defaultButtonText={'Month'}
             buttonStyle={{
-              width: 120,
+              width: 150,
             }}
             data={MONTH_ITEMS_OPTION}
             onSelect={(selectedItem, index) => {
@@ -326,7 +316,7 @@ class TableLeave extends Component {
           <SelectDropdown
             defaultButtonText={'Year'}
             buttonStyle={{
-              width: 99,
+              width: 100,
             }}
             data={yearOptionItem()}
             onSelect={(selectedItem, index) => {
@@ -358,52 +348,32 @@ class TableLeave extends Component {
           style={{
             flexDirection: 'row',
           }}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View
+           <View
               size={28}
               style={{
                 flex: 1,
-                marginLeft: 5,
                 height: 50,
-                width: 65,
-                marginHorizontal: 10,
+                marginLeft: 18,
               }}>
-              <Text>Tanggal Masuk</Text>
-            </View>
-            <View
-              size={28}
-              style={{
-                alignSelft: 'center',
-                flex: 1,
-                marginLeft: 40,
-                height: 50,
-                width: 65,
-              }}>
-              <Text>Jam Masuk</Text>
+              <Text style={{color: 'black'}}>Tanggal Mulai</Text>
             </View>
             <View
               size={28}
               style={{
                 flex: 1,
                 height: 50,
-                width: 65,
               }}>
-              <Text>Tanggal Keluar</Text>
+              <Text style={{color: 'black'}}>Tanggal Berakhir</Text>
             </View>
             <View
               size={28}
               style={{
                 flex: 1,
                 height: 50,
-                width: 95,
                 alignItems: 'center',
               }}>
-              <Text>Jam Keluar</Text>
+              <Text style={{color: 'black'}}>Alasan</Text>
             </View>
-            <View size={28} style={{alignSelf: 'center'}}>
-              <Text>Jam kerja Efektif</Text>
-            </View>
-          </ScrollView>
         </View>
         <View
           style={{
@@ -430,7 +400,7 @@ const style = StyleSheet.create({
   centerCol: {
     alignItems: 'center',
     padding: 10,
-    marginHorizontal: 10,
+    marginHorizontal: 18
   },
   headerLabel: {
     fontWeight: 'bold',

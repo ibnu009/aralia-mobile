@@ -1,5 +1,4 @@
 import {
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
@@ -12,18 +11,14 @@ import {
 import React, {useState, useEffect} from 'react';
 
 import {styles} from './Style';
-import axios from 'axios';
 
 // import {Card, Paragraph} from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import {TextInput} from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 // Import File Viewer to View Files in Native File Viewer
-import FileViewer from 'react-native-file-viewer';
 // Import DocumentPicker to pick file to view
 import DocumentPicker from 'react-native-document-picker';
-import {REST_URL, HEADERS_CONFIG} from '../../AppConfig';
 import AsyncStorage from '@react-native-community/async-storage';
 import { FlatList } from 'native-base';
 

@@ -7085,9 +7085,18 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@*, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@*, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
+  integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
+  dependencies:
+    loose-envify "^1.4.0"
+    object-assign "^4.1.1"
+    react-is "^16.13.1"
+
+prop-types@^15.8.1:
+  version "15.8.1"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
   dependencies:
     loose-envify "^1.4.0"
@@ -7255,6 +7264,11 @@ react-native-gradle-plugin@^0.0.7:
   resolved "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.7.tgz"
   integrity sha512-+4JpbIx42zGTONhBTIXSyfyHICHC29VTvhkkoUOJAh/XHPEixpuBduYgf6Y4y9wsN1ARlQhBBoptTvXvAFQf5g==
 
+react-native-html-to-pdf@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/react-native-html-to-pdf/-/react-native-html-to-pdf-0.12.0.tgz#2b467296f85c9c9783a7288b19722a7028dcbcb8"
+  integrity sha512-Yb5WO9SfF86s5Yv9PqXQ7fZDr9zZOJ+6jtweT9zFLraPNHWX7pSxe2dSkeg3cGiNrib65ZXGN6ksHymfYLFSSg==
+
 react-native-image-pan-zoom@^2.1.9:
   version "2.1.12"
   resolved "https://registry.npmjs.org/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.1.12.tgz"
@@ -7382,14 +7396,14 @@ react-native-select-dropdown@^3.1.0:
 
 react-native-selection-group@^2.0.0:
   version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-selection-group/-/react-native-selection-group-2.0.0.tgz#8b6ba467d9f000615f20710fd2044118323408ba"
+  resolved "https://registry.npmjs.org/react-native-selection-group/-/react-native-selection-group-2.0.0.tgz"
   integrity sha512-jRnqwOYzPayfB0PvLpgwYCiCPMOp8sXUufeBlI4NXIGHB8MGE/TA8jazq/eER99mTUA5e44JpDEALpEyghhN4A==
   dependencies:
     prop-types "^15.6.1"
 
 react-native-simple-survey@^3.1.2:
   version "3.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-simple-survey/-/react-native-simple-survey-3.1.2.tgz#7cda7d4a7a7f984e4df241eac0389c2f6dbfd16d"
+  resolved "https://registry.npmjs.org/react-native-simple-survey/-/react-native-simple-survey-3.1.2.tgz"
   integrity sha512-CU+CoDrcegbpk2qf5LanMmrPQs/gVHD9QncZINX/6my5ES0M4KebzjvDlJbuo+RhEUAcW1PfMVlhKY95SF9v4g==
   dependencies:
     react-native-selection-group "^2.0.0"

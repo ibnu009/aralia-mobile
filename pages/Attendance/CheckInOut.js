@@ -1322,7 +1322,7 @@ const style = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: 'red',
     left: 20,
-    top: 10,
+    top: 0,
     alignSelf: 'center',
     borderColor: 'white',
     borderWidth: 2,

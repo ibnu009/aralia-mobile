@@ -2,49 +2,62 @@ import {
   View,
   Text,
   Image,
-  BackHandler,
   ImageBackground,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from '../styles';
 import {store as UserStore} from '../remx/User/store';
-import Attendance from './Attendance/index';
 import HeaderLogo from './HeaderLogo';
+import packageJson from '../package.json';
 // import {useNavigation} from '@react-navigation/native';
-
 const Home = ({navigation}) => {
   // const navigation = useNavigation();
   const {username, employee_name, url_foto} = UserStore.getUserData();
-
+  const [userData, setUserData] = useState({});
   useEffect(() => {
-    setTimeout(() => {
-      var userData = UserStore.getUserData();
-      // console.log(userData);
-    }, 5000);
+    setUserData(UserStore.getUserData());
   });
 
   return (
     <>
       <View style={styles.container}>
+        <Text
+          style={{
+            textAlign: 'right',
+            width: Dimensions.get('screen').width,
+            paddingRight: 10,
+            fontSize: 10,
+            fontWeight: '100',
+            color: '#fff',
+            backgroundColor: 'rgba(52, 52, 52, 0.8)'
+          }}>
+          {packageJson.version}
+        </Text>
         <HeaderLogo />
         <ImageBackground
           source={require('../assets/bg-login.png')}
           resizeMode="cover"
-          style={{height: 680}}>
+          style={{
+            width: Dimensions.get('screen').width,
+            height: Dimensions.get('screen').height,
+          }}>
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <View style={{marginTop: 100}}>
               <Image
-                source={{uri: url_foto}}
+                source={userData.url_foto
+                  ? {uri: userData.url_foto}
+                  : require('assets/default.png')}
                 style={{width: 100, height: 100, borderRadius: 15}}
               />
-              <Text style={styles.textLabel}>{username}</Text>
-              <Text style={styles.textLabel}>{employee_name}</Text>
+              <Text style={styles.textLabel}>{userData.username}</Text>
+              <Text style={styles.textLabel}>{userData.employee_name}</Text>
             </View>
             <View style={{marginTop: 100}}>
               <TouchableOpacity
                 onPress={() => {
-                  console.log(navigation.navigate('Attendance'));
+                  navigation.navigate('Attendance');
                 }}>
                 <Image source={require('../assets/menu/fingerlogo.png')} />
               </TouchableOpacity>

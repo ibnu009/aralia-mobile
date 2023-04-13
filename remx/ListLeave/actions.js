@@ -48,3 +48,7 @@ export async function setMonth(m?: Number) {
 export async function setYear(y?: Number) {
   store.setYear(y);
 }
+
+export async function setToken(token?: String) {
+  store.setToken(token);
+}
