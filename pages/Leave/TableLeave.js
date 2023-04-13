@@ -122,7 +122,8 @@ class TableLeave extends Component {
 
   downloadPDFAttendance = () => {
     const url = `https://aralia.pegadaian.co.id/webservice_api/attendance/download?id_employee=${this.state.nip}&year=${this.state.selectedYear}&month=${this.state.selectedMonth}`;
-    //console.log(url)
+    // const url = `https://api-aralia.abera.id/attendance/download?id_employee=${this.state.nip}&year=${this.state.selectedYear}&month=${this.state.selectedMonth}`;
+    // const url = `http://localhost/backend-abera-aralia-pegadaian/attendance/download?id_employee=${this.state.nip}&year=${this.state.selectedYear}&month=${this.state.selectedMonth}`;
     let dirs =
       Platform.OS == 'ios'
         ? RNFetchBlob.fs.dirs.DownloadDir

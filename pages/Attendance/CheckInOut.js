@@ -115,37 +115,32 @@ class CheckInOut extends Component {
   componentDidMount() {
     var userData = UserStore.getUserData();
     var quesionerData = UserStore.getQuesionerData();
-    console.log('Masuk sini di componentDidMount()');
     this.loadData(userData, quesionerData);
-
+    
     if (
       quesionerData['checkQuesioner'] < 1 &&
       quesionerData['isQuesioner'] == '1'
     ) {
       // this.props.navigation.navigate('HealthSurvey');
+      this.loadData(userData, quesionerData);
     } else {
       this.loadData(userData, quesionerData);
     }
   }
 
   loadData = (userData, quesionerData) => {
-    console.log('Masuk sini');
-
     this.setState({
       nip: userData['employee_id'],
       id_employee: userData['id_employee'],
       level: userData['level'],
     });
 
-    // this.getLocationName();
+    this.getLocationName();
 
     // jika security
     if (this.checkAttendanceModal(userData['level'])) {
       // check absensi
-      console.log('Adalah security');
-      let check_atd_uri = `${REST_URL}/attendance/check4?id_employee=${
-        userData['id_employee']
-      }&date=${Moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}`;
+      let check_atd_uri = `${REST_URL}/attendance/check4?id_employee=${userData['id_employee']}&date=${Moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}`;
       console.log(check_atd_uri);
       this.setState({showLoading: true});
       fetch(check_atd_uri, {
@@ -621,16 +616,12 @@ class CheckInOut extends Component {
       (result) => {
         console.log('Getting location...');
         let {coords, mocked} = result;
-        // if (Platform.OS == 'android' && mocked) {
-        //   this.props.navigation.navigate('Attendance', this.props);
-        //   reject({
-        //     alert: `Harap matikan penetapan lokasi palsu Anda untuk melanjutkan!`,
-        //   });
-        // }
-        console.log('Mendapat location...');
-        console.log(coords.latitude);
-        console.log(coords.longitude);
-
+        if (Platform.OS == 'android' && mocked) {
+          this.props.navigation.navigate('Attendance', this.props);
+          reject({
+            alert: `Harap matikan penetapan lokasi palsu Anda untuk melanjutkan!`,
+          });
+        }
         this.setState({lat: coords.latitude, long: coords.longitude});
         resolve();
       },
@@ -653,9 +644,8 @@ class CheckInOut extends Component {
 
         let mockLat = '-5.151394469431761';
         let mockLng = '119.43210699999997';
-        var urlGeoFormat = `${urlGeofences}/api/v1/geofences/check_area?longitude=${mockLng}&latitude=${mockLat}&key=${urlKey}`;
-
-        // var urlGeoFormat = `${urlGeofences}/api/v1/geofences/check_area?longitude=${this.state.long}&latitude=${this.state.lat}&key=${urlKey}`;
+        // var urlGeoFormat = `${urlGeofences}/api/v1/geofences/check_area?longitude=${mockLng}&latitude=${mockLat}&key=${urlKey}`;
+        var urlGeoFormat = `${urlGeofences}/api/v1/geofences/check_area?longitude=${this.state.long}&latitude=${this.state.lat}&key=${urlKey}`;
         console.log('URL GEO FORMAT');
         console.log(urlGeoFormat);
         // do get area

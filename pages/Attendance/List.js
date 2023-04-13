@@ -119,12 +119,9 @@ class AttendanceList extends Component {
   };
 
   downloadPDFAttendance = () => {
-
-    // http://34.126.150.110/api-aralia
     const url = `https://aralia.pegadaian.co.id/webservice_api/attendance/download?id_employee=${this.state.nip}&year=${this.state.selectedYear}&month=${this.state.selectedMonth}`;
-
-    // const url = `https://aralia.pegadaian.co.id/webservice_api/attendance/download?id_employee=${this.state.nip}&year=${this.state.selectedYear}&month=${this.state.selectedMonth}`;
-    //console.log(url)
+    // const url = `https://api-aralia.abera.id/attendance/download?id_employee=${this.state.nip}&year=${this.state.selectedYear}&month=${this.state.selectedMonth}`;
+    // const url = `http://localhost/backend-abera-aralia-pegadaian/attendance/download?id_employee=${this.state.nip}&year=${this.state.selectedYear}&month=${this.state.selectedMonth}`;
     let dirs =
       Platform.OS == 'ios'
         ? RNFetchBlob.fs.dirs.DownloadDir

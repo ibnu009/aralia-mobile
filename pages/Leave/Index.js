@@ -29,7 +29,8 @@ import { FlatList } from 'native-base';
 
 // const baseUrl = 'https://reqres.in';
 const baseUrl = 'https://aralia.pegadaian.co.id/webservice_api';
-// const baseUrl = 'https://api-aralia.abera.id/';
+// const baseUrl = 'https://api-aralia.abera.id';
+// const baseUrl = 'http://localhost/backend-abera-aralia-pegadaian';
 
 const ButtonMenu = (props) => {
   return (
@@ -162,6 +163,8 @@ const Index = ({navigation}) => {
   const [cutiType, setCutiType] = useState('Pilih Cuti');
   const [cutiId, setCutiId] = useState('');
 
+  const [cutiBalance, setCutiBalance] = useState(0);
+  
   const [token, setToken] = useState('');
   const [cutiResponse, setCutiResponse] = useState('');
 
@@ -201,11 +204,12 @@ const Index = ({navigation}) => {
   }, []);
 
 
-  const toggleModalVisibility = (cuti, cutiId) => {
+  const toggleModalVisibility = (cuti, cutiId, cutiBalance) => {
     setModalVisible(!isModalVisible);
     if (cuti != '') {
       setCutiType(cuti);
       setCutiId(cutiId);
+      setCutiBalance(cutiBalance);
     }
   };
 
@@ -233,6 +237,14 @@ const Index = ({navigation}) => {
     hideDatePicker();
   };
 
+  const calculateDaysBetween = (dateStart, dateEnd) => {
+    var date1 = new Date(dateStart);
+    var date2 = new Date(dateEnd);
+  
+    var diffInTime = date2.getTime() - date1.getTime();
+    var diffInDays = diffInTime / (1000 * 3600 * 24);
+    return diffInDays;
+  }
 
   const BtnSubmit = async () => {
     if (cutiType == '') {
@@ -260,7 +272,6 @@ const Index = ({navigation}) => {
       );
       return;
     }
-
     if (calculateDaysBetween(date, endDate) > cutiBalance) {
       Alert.alert('Info', 'Pengajuan cuti tidak boleh melebihi balance cuti');
       return;
@@ -285,23 +296,23 @@ const Index = ({navigation}) => {
     formData.append('start_date', formatDate(date, false));
     formData.append('end_date', formatDate(endDate, true));
     formData.append('id_attendance_type', cutiId);
+    formData.append('days_count', calculateDaysBetween(date, endDate));
     formData.append('file', {
-      name: name,
+      name: fileName,
       type: contentType,
       uri: mUri,
     });
-
+    console.log('URL FILE');
+    console.log(fileName);
     let url = `${baseUrl}/leave_request/create`;
 
+    console.log('STARTDATE');
+    console.log(formatDate(date));
     console.log('ENDDATE');
     console.log(formatDate(endDate));
 
     readData()
     .then((data) => {
-
-      console.log('TOKEN');
-      console.log(data);
-
       fetch(url, {
         method: 'POST',
         headers: {

@@ -150,7 +150,7 @@ export default class Login extends Component {
             })
               .then((response) => {
                 // response.json();
-                console.log('response is');
+                console.log('response device token is');
                 console.log(response);
               })
               .then((responseJSON) => {
@@ -168,8 +168,8 @@ export default class Login extends Component {
           Toast.show(res.message, Toast.LONG);
           store.setConfigData({});
         } else if (res.status == 'success') {
-          // set config API
           store.setConfigData(res.mobileapi);
+          // set config API
 
           console.log('message is :');
           console.log(res.message);

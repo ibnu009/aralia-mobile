@@ -7,6 +7,7 @@ export const REST_PGD = 'https://larisa.pegadaian.co.id/webservices1';
 export const REST_URL = 'https://aralia.pegadaian.co.id/webservice_api';
 // export const REST_PGD = 'http://34.126.150.110/api-aralia';
 // export const REST_URL = 'https://api-aralia.abera.id';
+// export const REST_URL = 'http://localhost/backend-abera-aralia-pegadaian';
 export const API_KEY = '';
 
 export const HEADERS_CONFIG = {
